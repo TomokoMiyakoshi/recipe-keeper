@@ -1,5 +1,5 @@
-export const populateWithTags = function(formControlSelector) {
-    const tags = JSON.parse(localStorage.getItem("tags"));
+export const populateWithTags =　async function(formControlSelector) {
+    const tags = await localforage.getItem("tags") || [];
     // to display tag options in alphabetical order
     tags.sort();
     const formControl = document.querySelector(formControlSelector);
@@ -11,18 +11,22 @@ export const populateWithTags = function(formControlSelector) {
     });
 };
 
-export const addTagElement = function(value, containerSelector) {
+export const addTagElement = function(value, containerSelector, removable=true) {
     const tag = document.createElement("div");
     tag.innerText = value;
-    const deleteBtn = document.createElement("button");
-    deleteBtn.classList.add("delete-tag-btn");
-    const icon = document.createElement("i");
-    icon.classList.add("fa");
-    icon.classList.add("fa-close");
-    deleteBtn.appendChild(icon);
-    tag.appendChild(deleteBtn);
+    if (removable) {
+        const deleteBtn = document.createElement("button");
+        deleteBtn.classList.add("delete-tag-btn");
+        const icon = document.createElement("i");
+        icon.classList.add("fa");
+        icon.classList.add("fa-close");
+        deleteBtn.appendChild(icon);
+        tag.appendChild(deleteBtn);
+        document.querySelector(containerSelector).appendChild(tag);
+        return deleteBtn;
+    }
     document.querySelector(containerSelector).appendChild(tag);
-    return deleteBtn;
+    return tag;
 };
 
 export const removeTagElement = function(deleteBtn, containerSelector) {

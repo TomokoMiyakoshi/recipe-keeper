@@ -15,7 +15,7 @@ if (document.title == "New Recipe") {
     initNewRecipeForm();
 }
 
-if (window.location.pathname === "/open-recipe.js") {
+if (window.location.pathname === "/open-recipe.html") {
     displaySelectedRecipe();
 }
 

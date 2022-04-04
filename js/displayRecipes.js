@@ -1,10 +1,10 @@
 import {openSelectedRecipe} from "./openRecipe.js";
 
-export const displayRecipes = function(recipes) {
+export const displayRecipes = async function(recipes) {
     const container = document.querySelector(".recipes-container");
     
     if (recipes === undefined) {
-        recipes = JSON.parse(localStorage.getItem("recipes"));
+        recipes = await localforage.getItem("recipes") || [];
     } else {
         // clear recipes container before displaying new result
         while(container.lastElementChild) {
