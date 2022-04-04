@@ -25,10 +25,9 @@ export const initNewRecipeForm = function() {
     populateWithTags("#existing-tags");
 }
 
-const submitRecipe = function(recipeTags) {
-    console.log("submitting")
+const submitRecipe = async function(recipeTags) {
     const recipe = createRecipeObject(recipeTags);
-    saveRecipe(recipe);
+    await saveRecipe(recipe);
     updateTagsArray(recipeTags);
     redirectToHomePage();
 }
@@ -45,17 +44,18 @@ const createRecipeObject = function(tags) {
     return {name, favourite, lastAccessed, servings, ingredients, instructions, tags, image};
 }
 
-const saveRecipe = function(recipe) {
-    const recipes = JSON.parse(localStorage.getItem("recipes"));
+
+
+const saveRecipe = async function(recipe) {
+    const recipes = await localforage.getItem("recipes") || [];
     recipes.push(recipe);
-    localStorage.setItem("recipes", JSON.stringify(recipes));
+    return localforage.setItem("recipes", recipes);
 }
 
-const updateTagsArray = function(recipeTags) {
-    const existingTags = JSON.parse(localStorage.getItem("tags"));
-    // add all new recipe tags to existingTags array and save updated array to local storage
+const updateTagsArray = async function(recipeTags) {
+    const existingTags = await localforage.getItem("tags") || [];
     const updatedTagsArr = existingTags.concat(recipeTags.filter(t => !existingTags.includes(t)));
-    localStorage.setItem("tags", JSON.stringify(updatedTagsArr));
+    return localforage.setItem("tags", updatedTagsArr);
 }
 
 
@@ -67,12 +67,9 @@ const addTag = function(recipeTags) {
     const input = document.querySelector("#tag");
     const value = input.value.toLowerCase().trim();
 
-    console.log(value);
-
     // if tag is not already selected for the recipe, add it to recipeTags
     if (value !== "" && !recipeTags.includes(value)) {
         recipeTags.push(value);
-        console.log(recipeTags)
         const deleteBtn = addTagElement(value, ".tags-container");
         deleteBtn.addEventListener("click", function() {
             removeTagElement(this, ".tags-container");
