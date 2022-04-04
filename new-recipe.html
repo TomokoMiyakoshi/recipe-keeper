@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Recipe</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <script type="module" src="js/main.js"></script>
+</head>
+    <body>
+        <header>
+            <nav>
+                <ul class="top-nav">
+                    <li>
+                        <a href="index.html">logo</a>
+                    </li>
+                    <li>
+                        <button class="menu-btn" aria-label="open-menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </li>
+                </ul>
+                <ul class="menu hide">
+                    <li class="add-recipe-link"><a href="new-recipe.html">Add Recipe</a></li>
+                    <li class="home-link"><a href="index.html">View Recipes</a></li>
+                    <li class="grocery-list-link"><a href="grocery-list.html">Grocery List</a></li>
+                </ul>
+            </nav>
+            <div class="selected-bar">
+                <i class="fa fa-check-circle"></i>
+                <p>1 selected</p>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-trash"></i>
+            </div>
+        </header>
+        <main>
+            <form action="" class="new-recipe-form">
+                <div>
+                    <label for="name">Name</label>
+                    <!-- autocapitalize doesnt work on all keyboards -->
+                    <input required autocomplete="off" autocapitalize="on" type="text" id="name" name="name">
+                </div>
+                <div>
+                    <label for="servings">Servings</label>
+                    <input required type="number" id="servings" name="servings" min="1" max="50">   
+                </div>
+    
+                <div>
+                    <label for="tag">Tags</label>
+                    <div class="tag-input-container">
+                        <input list="existing-tags" id="tag" name="tag" autocomplete="off">
+                        <datalist id="existing-tags">
+                        </datalist>
+                        <button class="add-tag-btn">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+    
+                <div class="tags-container">
+    
+                </div>
+                
+                <div>
+                    <label for="ingredients">Ingredients</label>
+                    <textarea name="ingredients" id="ingredients" cols="30" rows="10" placeholder="Enter 1 ingredient-quantity pair per line"></textarea>
+                </div>
+    
+                <div>
+                    <label for="instructions">Instructions</label>
+                    <textarea name="instructions" id="instructions" cols="30" rows="10" placeholder="Enter 1 step per line"></textarea>
+                </div>
+
+                <div class="img-drop-area">
+                    <!-- input only allows single file, so no "multiple" attribute -->
+                    <input type="file" id="file-input" accept="image/*">
+
+                    <!-- label covers entire div, file select input opens when clicked -->
+                    <!-- label placed after input to allow outline styling on focus of input using + selector -->
+                    <label for="file-input">
+                        <span>Click to upload image</span>
+                        <!-- hide this span if drag and drop functionality not available -->
+                        <span> or drag it here</span>
+                    </label>
+                    
+                    <div class="hide img-preview-wrapper">
+                        <button class="remove-img-btn">remove</button>
+                    </div>
+                </div>
+
+                
+    
+                <button type="submit" class="submit-recipe-btn">Save</button>
+            </form>
+        </main>
+    </body>
+    
+</html>

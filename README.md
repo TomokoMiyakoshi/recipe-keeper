@@ -1,0 +1,1 @@
+This client-side app allows the user to store recipes, categorise them using custom tags, and search/filter for specific recipes. The user can also create grocery lists by manually adding items, or by selecting items from a recipe.

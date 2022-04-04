@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef's Helper</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="module" src="js/main.js"></script>
+</head>
+<body class="home-body">
+    <header>
+        <nav>
+            <ul class="top-nav">
+                <li>
+                    <a href="index.html">logo</a>
+                </li>
+                <li>
+                    <button class="menu-btn" aria-label="open-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </li>
+            </ul>
+            <ul class="menu hide">
+                <li class="add-recipe-link"><a href="new-recipe.html">Add Recipe</a></li>
+                <li class="home-link"><a href="index.html">View Recipes</a></li>
+                <li class="grocery-list-link"><a href="grocery-list.html">Grocery List</a></li>
+            </ul>
+        </nav>
+        <div class="selected-bar">
+            <i class="fa fa-check-circle"></i>
+            <p>1 selected</p>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-trash"></i>
+        </div>
+    </header>
+    <main>
+        <div class="categories-btns-container">
+            <button class="current-category view-all-btn">All</button>
+            <button class="view-favourites-btn">Favourites</button>
+            <button class="view-recents-btn">Recents</button>
+        </div>
+        <form action="" class="search-form">
+            <label for="search"></label>
+            <input type="text" id="search" name="search" autocomplete="off">
+            <button class="hide clear-searchbar-btn" title="clear">&times;</button>
+            <button class="search-btn">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+
+        <form action="" class="tag-filter-form">
+            <label for="tag-filter"></label>
+            <select name="tag-filter" id="tag-filter">
+                <option value="" disabled selected>Filter by tag</option>
+            </select>
+            
+            <!-- <button class="tag-filter-btn">
+                <i class="fa fa-plus"></i>
+            </button> -->
+            
+        </form>
+
+        <div class="filter-tags-container"></div>
+
+        <p class="no-results-message">No recipes found</p>
+
+        <div class="recipes-container">
+            <!-- <a class="recipe-link" href="recipe.html">
+                <figure class="recipe-card">
+                    <img src="images/pie.png" alt="">
+                    <figcaption>recipe name</figcaption>
+                </figure>
+            </a> -->
+            
+        </div>
+    </main>
+    <aside class="intro-card hide">
+        <h1>Never lose a recipe or grocery list again.</h1>
+        <h2>Chef's Helper is by your side.</h2>
+        <img src="images/chef.png" alt="Smiling chef wearing a chef hat and holding a turner">
+        <button>Add a recipe to get started</button>
+    </aside>
+    <footer>
+        <a href="https://www.flaticon.com/free-icons/chef" title="chef icons">Chef icons created by Freepik - Flaticon</a>
+    </footer>
+</body>
+</html>
