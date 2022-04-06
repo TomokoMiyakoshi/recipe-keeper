@@ -14,6 +14,7 @@
 img {
     /* additional reset on top of reset.css */
     max-width: 100%;
+    object-fit: cover;
 }
 
 button {
@@ -379,6 +380,22 @@ footer {
     width: fit-content;
     border: 1px solid black;
 }
+
+/* ------------ open recipe ------------ */
+.open-recipe .img-container {
+    width: 70vw;
+    height: 30vw;
+    background: black;
+    margin: 0 auto;
+}
+
+.img-container img {
+    object-fit: cover;
+}
+
+
+
+
 
 /* ------------ classes used across pages ------------ */
 /* .hide {

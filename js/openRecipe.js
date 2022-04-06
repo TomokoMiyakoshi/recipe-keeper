@@ -1,4 +1,5 @@
-import { addTagElement, removeTagElement } from "./tags.js"
+import { addTagElement } from "./tags.js"
+
 export const openSelectedRecipe = async function(e) {
     e.preventDefault();
     await saveSelectedRecipeName(this);

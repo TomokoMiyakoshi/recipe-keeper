@@ -52,8 +52,17 @@ export const removeTagFromDropdown = function() {
 
 export const addTagToDropdown = function(tagValue) {
     const dropdown = document.querySelector("#tag-filter");
+    for (var i = 0; i < dropdown.length; i++) {
+        if (tagValue < dropdown[i].value) {
+            break;
+        }
+    }
+
     const option = document.createElement("option");
-    option.value = tagValue
-    option.innerText = tagValue;
-    dropdown.appendChild(option);
+            option.value = tagValue
+            option.innerText = tagValue;
+            dropdown.add(option,i);
+            console.log("added at index " + (i+1));
+    
+
 }

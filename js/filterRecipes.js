@@ -1,7 +1,5 @@
 // TODO: select recipe on hover or click and hold
 
-// TODO: add back tags in alphabetical order
-
 import { addTagElement, removeTagElement, clearTagFormControl, populateWithTags, addTagToDropdown, removeTagFromDropdown } from "./tags.js";
 import { displayRecipes } from "./displayRecipes.js";
 
@@ -24,37 +22,35 @@ export const initRecipeSearch = function() {
     document.querySelectorAll(".categories-btns-container button").forEach(
         btn => btn.addEventListener("click", changeCategory)
     );
-    
-
     populateWithTags("#tag-filter");
     displayRecipes();
 }
 
-const clearSearchBar = function(e) {
+const clearSearchBar = async function(e) {
     e.preventDefault();
     document.querySelector("#search").value = "";
     // hide clear search bar btn
     document.querySelector(".clear-searchbar-btn").classList.add("hide");
-    updateResultsArray("remove search term");
+    await updateResultsArray("remove search term");
     displayRecipes(newResults);
 };
 
-const submitSearch = function(e) {
+const submitSearch = async function(e) {
     e.preventDefault();
     const input = document.querySelector("#search");
     const value = input.value.trim().toLowerCase();
     if (value != "") {
-        updateResultsArray("new search term", value);
+        await updateResultsArray("new search term", value);
         displayRecipes(newResults);
         // show clear search bar btn
         document.querySelector(".clear-searchbar-btn").classList.remove("hide");
     }
 };
 
-const submitTagFilter = function(e) {
+const submitTagFilter = async function(e) {
     e.preventDefault();
     const value = document.querySelector("#tag-filter").value;
-    updateResultsArray("new tag", value);
+    await updateResultsArray("new tag", value);
     displayRecipes(newResults);
     removeTagFromDropdown()
     clearTagFormControl("#tag-filter");
@@ -65,20 +61,20 @@ const submitTagFilter = function(e) {
 }
 
 
-const removeTagFilter = function() {
+const removeTagFilter = async function() {
     const value = this.parentElement.innerText;
-    updateResultsArray("remove tag", value);
+    await updateResultsArray("remove tag", value);
     addTagToDropdown(value);
     removeTagElement(this, ".filter-tags-container");
     displayRecipes(newResults);
 };
 
-const changeCategory = function() {
+const changeCategory = async function() {
     // set currentCategory to new category
     currentCategory = this.innerText.toLowerCase();
     // change the button with the underline and bold styling
     styleCurrentCategory(this);
-    updateResultsArray("category", currentCategory);
+    await updateResultsArray("category", currentCategory);
     displayRecipes(newResults);
 }
 
@@ -89,8 +85,8 @@ const styleCurrentCategory = function(newCategoryBtn) {
     newCategoryBtn.classList.add("current-category");
 };
 
-export const updateResultsArray = function(changeType, newValue, category) {
-    const recipes = JSON.parse(localStorage.getItem("recipes"));
+export const updateResultsArray = async function(changeType, newValue) {
+    const recipes = await localforage.getItem("recipes") || [];
     switch (changeType) {
         case "new search term" : 
             searchTerm = newValue;
