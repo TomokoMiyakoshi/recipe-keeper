@@ -12,7 +12,7 @@
     <script type="module" src="js/main.js"></script>
     <script src="/dist/localforage.js"></script>
 </head>
-<body class="open-recipe">
+<body>
     <nav>
         <ul class="top-nav">
             <li>
@@ -33,26 +33,37 @@
         </ul>
     </nav>
 
-    <div class="img-container">
-        <img src="" alt="">
-    </div>
-    <div>
-        <h1>Recipe name</h1>
-        <div class="tags-container"></div>
-        <h2>4 servings</h2>
-        <div>
-            <button>a</button>
-            <button>a</button>
-            <button>a</button>
-            <button>a</button>
+    <main class="open-recipe">
+        <div class="img-container">
+            <img src="" alt="">
         </div>
-    </div>
+        <div class="details-container">
+            <h1>Recipe name</h1>
+            <div class="tags-container"></div>
+            <h2>4 servings</h2>
+            <div class="btns-container">
+                <!-- <button class="edit-btn"><i class="fa fa-pencil"></i></button>
+                <button class="star-btn"><i class="fa fa-star"></i></button>
+                <button class="share-btn"><i class="fa fa-share"></i></button>
+                <button class="print-btn"><i class="fa fa-print"></i></button> -->
+
+                <button class="edit-btn"><i class="fa fa-pencil"></i>Edit</button>
+                <button class="star-btn"><i class="fa fa-star"></i>Star</button>
+                <button class="share-btn"><i class="fa fa-share"></i>Share</button>
+                <button class="print-btn"><i class="fa fa-print"></i>Print</button>
+            </div>
+        </div>
+
+        <div class="ing-container">
+            <h1>Ingredients</h1>
+            <ul></ul>
+        </div>
+
+        <div class="ins-container">
+            <h1>Instructions</h1>
+            <ol></ol>
+        </div>
+    </main>
     
-    <div>
-        <button class="ing-btn">Ingredients</button>
-        <button class="ins-btn">Instructions</button>
-    </div>
-    <p class="ing-text"></p>
-    <p class="ins-text"></p>
 </body>
 </html>

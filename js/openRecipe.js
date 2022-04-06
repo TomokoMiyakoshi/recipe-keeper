@@ -21,34 +21,39 @@ const redirectToRecipePage = function() {
 export const displaySelectedRecipe = async function() {
 
     const recipe = await localforage.getItem("open-recipe");
-    document.querySelector("h1").innerText = recipe[0].name;
-    document.querySelector("h2").innerText = recipe[0].servings + " servings";
+    document.querySelector(".open-recipe .details-container h1").innerText = recipe[0].name;
+    document.querySelector(".open-recipe .details-container h2").innerText = recipe[0].servings + " servings";
     document.querySelector("img").src = recipe[0].image;
     const tags = recipe[0].tags;
     tags.forEach(t => {
         addTagElement(t, ".tags-container", false);
     })
-    const ing = document.querySelector(".ing-text");
-    const ins = document.querySelector(".ins-text");
-    ing.innerText = recipe[0].ingredients.join("\r\n");
-    ins.innerText = recipe[0].instructions.join("\r\n");
-    // show ingredients by default
-    ins.style.display = "none";
+    const ing = document.querySelector(".ing-container ul");
+    const ins = document.querySelector(".ins-container ol");
+    // ing.innerText = recipe[0].ingredients.join("\r\n");
+    // ins.innerText = recipe[0].instructions.join("\r\n");
 
-    document.querySelector(".ing-btn").addEventListener("click", () => {
-        ins.style.display = "none";
-        ing.style.display = "block";
+
+    recipe[0].ingredients.forEach(i => {
+        
+        const check = document.createElement("input");
+        check.setAttribute("type", "checkbox");
+        check.value = i;
+        check.id = i;
+        const label = document.createElement("label");
+        label.htmlFor = i;
+        label.appendChild(document.createTextNode(i));
+
+        const li = document.createElement("li");
+        li.appendChild(check);
+        li.appendChild(label);
+        ing.appendChild(li);
     })
 
-    document.querySelector(".ins-btn").addEventListener("click", () => {
-        ing.style.display = "none";
-        ins.style.display = "block";
+    recipe[0].instructions.forEach(i => {
+        const li = document.createElement("li");
+        li.innerText = i;
+        ins.appendChild(li);
     })
     
 };
-
-
-// const getRecipeText(ingOrIns) {
-//     output = arr.join("\r\n");
-//     recipe[0].ingredients.forEach(i => output += )
-// }
