@@ -1,5 +1,5 @@
 export const initGroceryList = function() {
-    // document.querySelector(".search-btn").addEventListener("click", searchItem);
+    // document.querySelector(".search-btn").addEventListenerListener("click", searchItem);
     document.querySelector(".add-item-btn").addEventListener("click", addItem);
     document.querySelector(".clear-list-btn").addEventListener("click", clearList);
     document.querySelector(".remove-checked-btn").addEventListener("click", removeCheckedItems);
@@ -17,14 +17,14 @@ const addItem = async function(e) {
     const value = input.value.trim();
     input.value = "";
     try {
-        await storeItem(value);
+        await saveItem(value);
         addItemElement(value);
     } catch (e) {
         alert(e);
     }
 }
 
-const storeItem = async function(value) {
+const saveItem = async function(value) {
     const list = await localforage.getItem("list") || [];
     if (list.some(item => item.value === value)) {
         throw "The list already contains the item " + value;
@@ -34,7 +34,7 @@ const storeItem = async function(value) {
         checked: false
     }
     list.push(item);
-    localforage.setItem("list", list);
+    await localforage.setItem("list", list);
 }
 
 const addItemElement = function(value, checked=false) {
@@ -116,6 +116,23 @@ const removeCheckedItems = async function() {
     let list = await localforage.getItem("list");
     list = list.filter(item => !item.checked);
     await localforage.setItem("list", list);
+    location.reload();
+}
+
+
+export const updateListFromRecipe = async function(e) {
+    e.preventDefault();
+    const ingList = document.querySelectorAll(".ing-container li");
+    for (let i = 0; i < ingList.length; i++) {
+        const checkbox = ingList[i].firstElementChild;
+        if (checkbox.checked) {
+            try {
+                await saveItem(checkbox.value);
+            } catch (e) {
+                alert(e);
+            }
+        }
+    }
     location.reload();
 }
 

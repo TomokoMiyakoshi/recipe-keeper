@@ -1,11 +1,11 @@
 import { addTagElement } from "./tags.js"
+import { updateListFromRecipe } from "./groceryList.js"
 
 export const openSelectedRecipe = async function(e) {
     e.preventDefault();
     await saveSelectedRecipeName(this);
     redirectToRecipePage();
 };
-
 
 const saveSelectedRecipeName = async function(recipeCardLink) {
     const recipeName = recipeCardLink.querySelector("figcaption").innerText;
@@ -19,6 +19,9 @@ const redirectToRecipePage = function() {
 };
 
 export const displaySelectedRecipe = async function() {
+    document.querySelector(".select-btn").addEventListener("click", selectOrUnselectIngredients);
+    document.querySelector(".add-btn").addEventListener("click", updateListFromRecipe);
+    document.querySelector(".edit-btn").addEventListener("click", openEditRecipe);
 
     const recipe = await localforage.getItem("open-recipe");
     document.querySelector(".open-recipe .details-container h1").innerText = recipe[0].name;
@@ -52,9 +55,6 @@ export const displaySelectedRecipe = async function() {
         li.innerText = i;
         ins.appendChild(li);
     })
-
-    document.querySelector(".select-btn").addEventListener("click", selectOrUnselectIngredients);
-    
 };
 
 const selectOrUnselectIngredients = function(e) {
@@ -74,5 +74,4 @@ const selectOrUnselectIngredients = function(e) {
         // change button txt
         e.target.innerText = "Select all";
     }
-
 }

@@ -23,6 +23,10 @@ button {
     border: none;
 }
 
+button:active {
+    transform: scale(0.98);
+}
+
 a {
     /* additional reset on top of reset.css */
     text-decoration: none;
@@ -36,8 +40,6 @@ input, select, textarea {
 textarea {
     resize: none;
 }
-
-
 
 
 /* ------------------  variables ------------------ */
@@ -451,13 +453,12 @@ font-weight: bold;
     margin-right: 0.5rem;
 }
 
-.select-btn, .update-list-btn {
+.open-recipe .select-btn, .open-recipe .add-btn {
     color: var(--medium-grey);
     text-decoration: underline;
     padding: 0;
     display: inline-block;
     margin-bottom: 0.4rem;
-    /* margin: 0.1rem 0 0.5rem 0; */
 }
 
 .ins-container h1, .ing-container h1 {
@@ -537,7 +538,6 @@ font-weight: bold;
 .grocery-list input:checked + label {
     text-decoration: line-through;
 }
-
 
 
 
