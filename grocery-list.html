@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery list</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <script type="module" src="js/main.js"></script>
+    <script src="/dist/localforage.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="top-nav">
+                <li>
+                    <a href="index.html">logo</a>
+                </li>
+                <li>
+                    <button class="menu-btn" aria-label="open-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </li>
+            </ul>
+            <ul class="menu hide">
+                <li class="add-recipe-link"><a href="new-recipe.html">Add Recipe</a></li>
+                <li class="home-link"><a href="index.html">View Recipes</a></li>
+                <li class="grocery-list-link"><a href="grocery-list.html">Grocery List</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="grocery-list">
+        <form action="" class="search-form">
+            <label for="search"></label>
+            <input type="text" id="search" placeholder="Search item..." name="search" autocomplete="off">
+            <button class="hide clear-searchbar-btn" title="clear">&times;</button>
+            <button class="search-btn">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+
+        <form action="" class="add-item-form">
+            <label for="add-item"></label>
+            <input type="text" placeholder="Add new item..." id="add-item" max-length=25 autocomplete="off">
+            <button class="add-item-btn">
+                <i class="fa fa-plus"></i>
+            </button>
+        </form>
+
+        <button class=".clear-list-btn">Clear list</button>
+        <button class=".remove-checked-btn">Remove checked items</button>
+        <ol class="active-list"></ol>
+        <ol class="unactive-list"></ol>
+    </main>
+</body>
+</html>

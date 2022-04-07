@@ -178,7 +178,7 @@ footer {
     font-weight: 500;
 }
 
-.search-form {
+.search-form, .add-item-form {
     display: flex;
     justify-content: space-between;
     width: 30ch;
@@ -191,18 +191,18 @@ footer {
 }
 
 /* add outline on search form, remove from input (searchbar) */
-.search-form:focus-within {
+.search-form:focus-within, .add-item-form:focus-within {
     outline: 5px auto -webkit-focus-ring-color;
 }
 
-#search {
+#search, #add-item {
     flex: 1;
     border: none;
     border-radius: 20px 0 0 20px;
     padding: 0 10px;
 }
 
-#search:focus {
+#search:focus, #add-item:focus {
     outline: none;
 }
 
@@ -219,14 +219,14 @@ footer {
     display: none;
 }
 
-.search-btn {
+.search-btn, .add-item-btn {
     /* background-color: var(--light-grey); */
     border-left: 1px solid var(--light-grey);
     border-radius: 0 20px 20px 0;
     padding: 0 10px;
 }
 
-.search-form i {
+.search-form i, .add-item-form i {
     color: var(--dark-grey);
 }
 
@@ -477,6 +477,44 @@ font-weight: bold;
     content: counter(item) ".";
     margin-right: 0.5rem;
 }
+
+
+/* ------------------ grocery list page ------------------ */
+.grocery-list form {
+    border-color: var(--medium-grey);
+}
+
+.grocery-list form button {
+    background-color: var(--dark-blue);
+    border: none;
+}
+
+.grocery-list i {
+    color: white;
+}
+
+.grocery-list > button {
+    text-decoration: underline;
+    color: var(--dark-grey); 
+}
+
+.grocery-list ol {
+    max-width: 32ch;
+}
+
+.grocery-list li {
+    display: flex;
+}
+
+.grocery-list li > button {
+    margin-left: auto;
+}
+
+.grocery-list input:checked + label {
+    text-decoration: line-through;
+}
+
+
 
 
 
