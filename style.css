@@ -442,9 +442,24 @@ font-weight: bold;
     border-radius: 5px;
 }
 
+.ing-container span {
+    margin: 0 1rem;
+    color: var(--medium-grey);
+}
+
 .ing-container input {
     margin-right: 0.5rem;
 }
+
+.select-btn, .update-list-btn {
+    color: var(--medium-grey);
+    text-decoration: underline;
+    padding: 0;
+    display: inline-block;
+    margin-bottom: 0.4rem;
+    /* margin: 0.1rem 0 0.5rem 0; */
+}
+
 .ins-container h1, .ing-container h1 {
     font-size: 1.2rem;
     text-decoration: underline;
@@ -462,6 +477,7 @@ font-weight: bold;
     content: counter(item) ".";
     margin-right: 0.5rem;
 }
+
 
 
 /* ------------ classes used across pages ------------ */

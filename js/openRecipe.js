@@ -30,9 +30,6 @@ export const displaySelectedRecipe = async function() {
     })
     const ing = document.querySelector(".ing-container ul");
     const ins = document.querySelector(".ins-container ol");
-    // ing.innerText = recipe[0].ingredients.join("\r\n");
-    // ins.innerText = recipe[0].instructions.join("\r\n");
-
 
     recipe[0].ingredients.forEach(i => {
         
@@ -55,5 +52,27 @@ export const displaySelectedRecipe = async function() {
         li.innerText = i;
         ins.appendChild(li);
     })
+
+    document.querySelector(".select-btn").addEventListener("click", selectOrUnselectIngredients);
     
 };
+
+const selectOrUnselectIngredients = function(e) {
+    const checkboxes = document.querySelectorAll(".ing-container li input");
+    if (e.target.innerText == "Select all") {
+        // select all ingredients
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = true;
+        })
+        // change button txt
+        e.target.innerText = "Unselect all";
+    } else {
+        // unselect all ingredients
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        })
+        // change button txt
+        e.target.innerText = "Select all";
+    }
+
+}
