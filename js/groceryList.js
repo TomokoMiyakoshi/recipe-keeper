@@ -1,6 +1,8 @@
 export const initGroceryList = function() {
     // document.querySelector(".search-btn").addEventListener("click", searchItem);
     document.querySelector(".add-item-btn").addEventListener("click", addItem);
+    document.querySelector(".clear-list-btn").addEventListener("click", clearList);
+    document.querySelector(".remove-checked-btn").addEventListener("click", removeCheckedItems);
     displayStoredItems();
 }
 
@@ -24,7 +26,7 @@ const addItem = async function(e) {
 
 const storeItem = async function(value) {
     const list = await localforage.getItem("list") || [];
-    if (list.includes(value)) {
+    if (list.some(item => item.value === value)) {
         throw "The list already contains the item " + value;
     }
     const item = {
@@ -52,7 +54,12 @@ const addItemElement = function(value, checked=false) {
     li.appendChild(check);
     li.appendChild(label);
     li.appendChild(deleteBtn);
-    document.querySelector(".active-list").appendChild(li);
+    if (checked) {
+        document.querySelector(".inactive-list").appendChild(li);
+    } else {
+        document.querySelector(".active-list").appendChild(li);
+    }
+    
 }
 
 const deleteItem = async function(e) {
@@ -74,11 +81,42 @@ const deleteItemElement = function(e) {
     li.remove(); 
 } 
 
-const checkOrUncheck = async function(e) {
+const checkOrUncheck = function(e) {
+    updateCheckedStorage(e);
+    movePosition(e);
+}
+
+const updateCheckedStorage = async function(e) {
     const value = e.target.value;
     const list = await localforage.getItem("list");
     const itemIndex = list.findIndex(item => item.value === value);
     list[itemIndex].checked = e.target.checked;
     localforage.setItem("list", list);
 }
+
+const movePosition = function(e) {
+    const li = e.target.parentElement;
+    if (e.target.checked) {
+        li.remove();
+        document.querySelector(".inactive-list").appendChild(li);
+    } else {
+        li.remove();
+        document.querySelector(".active-list").appendChild(li);
+    }
+}
+
+const clearList = async function() {
+    if (confirm("Are you sure you wish to remove all items from the list?")) {
+        await localforage.setItem("list", []);
+        location.reload();
+    }
+}
+
+const removeCheckedItems = async function() {
+    let list = await localforage.getItem("list");
+    list = list.filter(item => !item.checked);
+    await localforage.setItem("list", list);
+    location.reload();
+}
+
 

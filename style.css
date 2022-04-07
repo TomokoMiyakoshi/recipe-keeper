@@ -500,10 +500,34 @@ font-weight: bold;
 
 .grocery-list ol {
     max-width: 32ch;
+    border-bottom: 1px solid var(--medium-grey);
+}
+
+.grocery-list ol:nth-of-type(1) {
+    margin-top: 1rem;
+}
+
+.grocery-list ol:nth-of-type(2) {
+    margin-top: 2rem;
+}
+
+.grocery-list ol:empty + ol:nth-of-type(2) {
+    margin-top: 1rem;
+}
+
+.grocery-list ol:empty {
+    border: none;
+    margin: none;
 }
 
 .grocery-list li {
     display: flex;
+    align-items: center;
+    border-top: 1px solid var(--medium-grey);
+}
+
+.grocery-list li > input {
+    margin-right: 0.5rem;
 }
 
 .grocery-list li > button {
