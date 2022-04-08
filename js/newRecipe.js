@@ -26,23 +26,26 @@ export const initNewRecipeForm = function() {
 
     // if there is no query string, it is a new recipe, otherwise user is editing existing recipe
     if (window.location.search != "") {
-        fillExistingDetails();
+        fillExistingDetails(recipeTags);
     }
 }
 
-const fillExistingDetails = async function() {
+const fillExistingDetails = async function(recipeTags) {
     const recipe = await getCurrentRecipe();
     document.querySelector("#name").value = recipe.name;
     document.querySelector("#servings").value = recipe.servings;
     document.querySelector("#ingredients").value = recipe.ingredients.join("\n");
     document.querySelector("#instructions").value = recipe.instructions.join("\n");
 
-    // set image preview to existing image
     const img = document.createElement("img");
     img.src = recipe.image;
     showImagePreview(img);
 
-    recipe.tags.forEach(t => addTagElement(t, ".tags-container"));
+    recipe.tags.forEach(t => {
+        // can't assign recipe.tags to recipeTags as arrays are passed by reference
+        recipeTags.push(t);
+        addTagElement(t, ".tags-container")
+    });
 }
 
 const submitRecipe = async function(recipeTags) {

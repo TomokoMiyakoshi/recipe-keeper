@@ -16,6 +16,7 @@ export const displaySelectedRecipe = async function() {
     document.querySelector(".select-btn").addEventListener("click", selectOrUnselectIngredients);
     document.querySelector(".add-btn").addEventListener("click", updateListFromRecipe);
     document.querySelector(".edit-btn").addEventListener("click", openEditRecipe);
+    document.querySelector(".star-btn").addEventListener("click", changeRecipeStar);
 
    const recipe = await getCurrentRecipe();
     
@@ -80,10 +81,31 @@ export const getCurrentRecipe = async function() {
     const recipeName = getExistingRecipeName();
     const recipes = await localforage.getItem("recipes") || [];
     return recipes.find(r => r.name === recipeName);
-    
 }
+
 
 const openEditRecipe = function(e) {
     window.location.href = "new-recipe.html?recipe=" + getExistingRecipeName();
     initNewRecipeForm();
+}
+
+const changeRecipeStar = async function(e) {
+    e.preventDefault();
+    console.log(this.lastElementChild.innerText);
+    if (this.lastElementChild.innerText === "Unstar") {
+        updateStarValue(false);
+        this.lastElementChild.innerText = "Star";
+    } else {
+        updateStarValue(true);
+        this.lastElementChild.innerText = "Unstar";
+    }
+
+}
+
+const updateStarValue = async function(newValue) {
+    const recipeName = getExistingRecipeName();
+    const recipes = await localforage.getItem("recipes");
+    const recipeIndex = recipes.findIndex(r => r.name == recipeName);
+    recipes[recipeIndex].favourite = newValue;
+    await localforage.setItem("recipes", recipes);
 }
