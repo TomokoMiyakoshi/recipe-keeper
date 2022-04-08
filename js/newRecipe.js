@@ -1,5 +1,5 @@
-// TODO: replace saveifnewtag and unsaveifnewtag with saving into newTags array and merging on submit
 import { populateWithTags, addTagElement, removeTagElement, clearTagFormControl } from "./tags.js";
+import { getCurrentRecipe, getExistingRecipeName } from "./openRecipe.js";
 
 export const initNewRecipeForm = function() {
     const recipeTags = [];
@@ -23,6 +23,21 @@ export const initNewRecipeForm = function() {
     droparea.addEventListener("drop", drop, false);
 
     populateWithTags("#existing-tags");
+
+    // if there is no query string, it is a new recipe, otherwise user is editing existing recipe
+    if (window.location.search != "") {
+        fillExistingDetails();
+    }
+}
+
+const fillExistingDetails = async function() {
+    const recipe = await getCurrentRecipe();
+    document.querySelector("#name").value = recipe.name;
+    document.querySelector("#servings").value = recipe.servings;
+    document.querySelector("#ingredients").value = recipe.ingredients.join("\n");
+    document.querySelector("#instructions").value = recipe.instructions.join("\n");
+
+    recipe.tags.forEach(t => addTagElement(t, ".tags-container"));
 }
 
 const submitRecipe = async function(recipeTags) {
@@ -44,18 +59,23 @@ const createRecipeObject = function(tags) {
     return {name, favourite, lastAccessed, servings, ingredients, instructions, tags, image};
 }
 
-
-
 const saveRecipe = async function(recipe) {
     const recipes = await localforage.getItem("recipes") || [];
-    recipes.push(recipe);
-    return localforage.setItem("recipes", recipes);
+    // replace current recipe with updated recipe if editing
+    const existingRecipe = await getExistingRecipeName();
+    if (existingRecipe) {
+        const existingIndex = recipes.findIndex(r => r.name === existingRecipe);
+        recipes[existingIndex] = recipe;
+    } else {
+        recipes.push(recipe);
+    }
+    await localforage.setItem("recipes", recipes);
 }
 
 const updateTagsArray = async function(recipeTags) {
     const existingTags = await localforage.getItem("tags") || [];
     const updatedTagsArr = existingTags.concat(recipeTags.filter(t => !existingTags.includes(t)));
-    return localforage.setItem("tags", updatedTagsArr);
+    localforage.setItem("tags", updatedTagsArr);
 }
 
 

@@ -123,6 +123,7 @@ const removeCheckedItems = async function() {
 export const updateListFromRecipe = async function(e) {
     e.preventDefault();
     const ingList = document.querySelectorAll(".ing-container li");
+    // cannot use await with forEach(), or any function with a callback
     for (let i = 0; i < ingList.length; i++) {
         const checkbox = ingList[i].firstElementChild;
         if (checkbox.checked) {

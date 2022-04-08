@@ -12,7 +12,7 @@ if (document.title == "Chef's Helper") {
    initRecipeSearch();
 }
 
-if (document.title == "New Recipe") {
+if (window.location.pathname === "/new-recipe.html") {
     initNewRecipeForm();
 }
 

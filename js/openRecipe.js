@@ -1,21 +1,15 @@
 import { addTagElement } from "./tags.js"
 import { updateListFromRecipe } from "./groceryList.js"
+import { initNewRecipeForm } from "./newRecipe.js";
 
 export const openSelectedRecipe = async function(e) {
     e.preventDefault();
-    await saveSelectedRecipeName(this);
-    redirectToRecipePage();
+    const recipeName = this.querySelector("figcaption").innerText.toLowerCase();
+    redirectToRecipePage(recipeName);
 };
 
-const saveSelectedRecipeName = async function(recipeCardLink) {
-    const recipeName = recipeCardLink.querySelector("figcaption").innerText;
-    const recipes = await localforage.getItem("recipes")
-    const recipe = recipes.filter(r => r.name.toLowerCase() == recipeName.toLowerCase());
-    await localforage.setItem("open-recipe", recipe);
-};
-
-const redirectToRecipePage = function() {
-    window.location.href = "open-recipe.html";
+const redirectToRecipePage = function(recipeName) {
+    window.location.href = "open-recipe.html?recipe=" + recipeName;
 };
 
 export const displaySelectedRecipe = async function() {
@@ -23,18 +17,19 @@ export const displaySelectedRecipe = async function() {
     document.querySelector(".add-btn").addEventListener("click", updateListFromRecipe);
     document.querySelector(".edit-btn").addEventListener("click", openEditRecipe);
 
-    const recipe = await localforage.getItem("open-recipe");
-    document.querySelector(".open-recipe .details-container h1").innerText = recipe[0].name;
-    document.querySelector(".open-recipe .details-container h2").innerText = recipe[0].servings + " servings";
-    document.querySelector("img").src = recipe[0].image;
-    const tags = recipe[0].tags;
+   const recipe = await getCurrentRecipe();
+    
+    document.querySelector(".open-recipe .details-container h1").innerText = recipe.name;
+    document.querySelector(".open-recipe .details-container h2").innerText = recipe.servings + " servings";
+    document.querySelector("img").src = recipe.image;
+    const tags = recipe.tags;
     tags.forEach(t => {
         addTagElement(t, ".tags-container", false);
     })
     const ing = document.querySelector(".ing-container ul");
     const ins = document.querySelector(".ins-container ol");
 
-    recipe[0].ingredients.forEach(i => {
+    recipe.ingredients.forEach(i => {
         
         const check = document.createElement("input");
         check.setAttribute("type", "checkbox");
@@ -50,7 +45,7 @@ export const displaySelectedRecipe = async function() {
         ing.appendChild(li);
     })
 
-    recipe[0].instructions.forEach(i => {
+    recipe.instructions.forEach(i => {
         const li = document.createElement("li");
         li.innerText = i;
         ins.appendChild(li);
@@ -74,4 +69,21 @@ const selectOrUnselectIngredients = function(e) {
         // change button txt
         e.target.innerText = "Select all";
     }
+}
+
+export const getExistingRecipeName = function(){
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("recipe");
+}
+
+export const getCurrentRecipe = async function() {
+    const recipeName = getExistingRecipeName();
+    const recipes = await localforage.getItem("recipes") || [];
+    return recipes.find(r => r.name === recipeName);
+    
+}
+
+const openEditRecipe = function(e) {
+    window.location.href = "new-recipe.html?recipe=" + getExistingRecipeName();
+    initNewRecipeForm();
 }
