@@ -37,6 +37,11 @@ const fillExistingDetails = async function() {
     document.querySelector("#ingredients").value = recipe.ingredients.join("\n");
     document.querySelector("#instructions").value = recipe.instructions.join("\n");
 
+    // set image preview to existing image
+    const img = document.createElement("img");
+    img.src = recipe.image;
+    showImagePreview(img);
+
     recipe.tags.forEach(t => addTagElement(t, ".tags-container"));
 }
 
@@ -113,6 +118,10 @@ const handleImgFile = function(file) {
     })
     reader.readAsDataURL(file);
 
+    showImagePreview();
+}
+
+const showImagePreview = function(img) {
     document.querySelector(".img-preview-wrapper").appendChild(img);
 
     // hide label and disable input
