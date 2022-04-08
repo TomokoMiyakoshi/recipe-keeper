@@ -8,7 +8,17 @@ export const initGroceryList = function() {
 
 const displayStoredItems = async function() {
     const list = await localforage.getItem("list") || [];
-    list.forEach(item => addItemElement(item.value, item.checked));
+    if (list.length != 0) {
+        list.forEach(item => addItemElement(item.value, item.checked));
+    } else {
+        toggleDisplayClearRemoveBtns(false);
+    }
+}
+
+const toggleDisplayClearRemoveBtns = function(displayValue) {
+    let display = displayValue ? "inline-block" : "none";
+    document.querySelector(".clear-list-btn").style.display = display;
+    document.querySelector(".remove-checked-btn").style.display = display;
 }
 
 const addItem = async function(e) {
@@ -19,6 +29,8 @@ const addItem = async function(e) {
     try {
         await saveItem(value);
         addItemElement(value);
+
+        toggleDisplayClearRemoveBtns(true);
     } catch (e) {
         alert(e);
     }
@@ -59,6 +71,11 @@ const addItemElement = function(value, checked=false) {
     } else {
         document.querySelector(".active-list").appendChild(li);
     }
+
+    // if this is the first item added to the list, display the buttons above the list
+    if (document.querySelector(".active-list").childElementCount == 1) {
+        toggleDisplayClearRemoveBtns(true);
+    }
     
 }
 
@@ -79,6 +96,11 @@ const deleteItemStore = async function(value) {
 const deleteItemElement = function(e) {
     const li = e.target.parentElement;
     li.remove(); 
+    // if there are no more items in the list, hide the buttons above the list
+    if (document.querySelector(".active-list").childElementCount == 0 && 
+        document.querySelector(".inactive-list").childElementCount ==  0) {
+        toggleDisplayClearRemoveBtns(false);
+    }
 } 
 
 const checkOrUncheck = function(e) {
