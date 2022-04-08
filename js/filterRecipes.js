@@ -6,7 +6,7 @@ import { displayRecipes } from "./displayRecipes.js";
 var appliedTags = []
 var newResults = [];
 var searchTerm = "";
-var currentCategory = "all";
+var currentCategory = "All";
 
 export const initRecipeSearch = function() {
     document.querySelector(".search-btn").addEventListener("click", submitSearch);
@@ -22,6 +22,7 @@ export const initRecipeSearch = function() {
     document.querySelectorAll(".categories-btns-container button").forEach(
         btn => btn.addEventListener("click", changeCategory)
     );
+
     populateWithTags("#tag-filter");
     displayRecipes();
 }
@@ -72,15 +73,17 @@ const removeTagFilter = async function() {
 const changeCategory = async function(e) {
     e.preventDefault();
 
-    currentCategory = this.innerText.toLowerCase();
-    if (currentCategory == "favourites" || currentCategory == "recents") {
-        currentCategory = currentCategory.substring(0, currentCategory.length - 1);
-    }
+    currentCategory = this.innerText;
     const recipes = await filterByCategory();
     displayRecipes(recipes);
 
     // change the button with the underline and bold styling
     styleCurrentCategory(this);
+
+    // remove applied tags and search term
+    document.querySelector("#search").value = "";
+    const tags = document.querySelectorAll(".filter-tags-container > div");
+    tags.forEach(tag => tag.remove());
 
     // clear applied tags and search term
     appliedTags.splice(0, appliedTags.length);
@@ -96,13 +99,27 @@ const styleCurrentCategory = function(newCategoryBtn) {
 
 const filterByCategory = async function() {
     const recipes = await localforage.getItem("recipes") || [];
-    if (currentCategory === "all") {
-        return recipes;
+
+    switch (currentCategory) {
+        case "All":
+            return recipes;
+        case "Favourites":
+            return recipes.filter(r => r["favourite"] == true);
+        case "Recents":
+            return await getRecents();
     }
-    return recipes.filter(r => r[currentCategory] == true);
 }
-export const updateResultsArray = async function(changeType, newValue) {
+
+const getRecents = async function() {
     const recipes = await localforage.getItem("recipes") || [];
+    // sort in descending date order
+    recipes.sort((a, b) => b.lastAccessed.getTime() - a.lastAccessed.getTime());
+    return recipes.slice(0, 9); 
+}
+
+export const updateResultsArray = async function(changeType, newValue) {
+    const recipes = await filterByCategory();
+   
     switch (changeType) {
         case "new search term" : 
             searchTerm = newValue;
@@ -122,11 +139,7 @@ export const updateResultsArray = async function(changeType, newValue) {
 };
 
 const matchesAppliedFilters = function(recipe) {
-    let result = containsAllTags(recipe) && containsSearchTerm(recipe);
-    if (currentCategory != "all") {
-        result = result && recipe[currentCategory] == true;
-    }
-    return result;
+    return containsAllTags(recipe) && containsSearchTerm(recipe);
 }
 
 // returns true if all applied tags are in the recipe's list of tags

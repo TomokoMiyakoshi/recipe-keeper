@@ -31,7 +31,8 @@ export const addTagElement = function(value, containerSelector, removable=true) 
 
 export const removeTagElement = function(deleteBtn, containerSelector) {
     const tagElem = deleteBtn.parentElement;
-    document.querySelector(containerSelector).removeChild(tagElem);
+    tagElem.remove();
+    // document.querySelector(containerSelector).removeChild(tagElem);
 };
 
 export const clearTagFormControl = function(controlSelector) {
@@ -59,10 +60,7 @@ export const addTagToDropdown = function(tagValue) {
     }
 
     const option = document.createElement("option");
-            option.value = tagValue
-            option.innerText = tagValue;
-            dropdown.add(option,i);
-            console.log("added at index " + (i+1));
-    
-
+    option.value = tagValue
+    option.innerText = tagValue;
+    dropdown.add(option,i);
 }

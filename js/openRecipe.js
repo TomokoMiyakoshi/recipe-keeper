@@ -12,13 +12,11 @@ const redirectToRecipePage = function(recipeName) {
     window.location.href = "open-recipe.html?recipe=" + recipeName;
 };
 
-export const displaySelectedRecipe = async function() {
+export const displaySelectedRecipe = async function(recipe) {
     document.querySelector(".select-btn").addEventListener("click", selectOrUnselectIngredients);
     document.querySelector(".add-btn").addEventListener("click", updateListFromRecipe);
     document.querySelector(".edit-btn").addEventListener("click", openEditRecipe);
     document.querySelector(".star-btn").addEventListener("click", changeRecipeStar);
-
-    const recipe = await getCurrentRecipe();
     
     document.querySelector(".open-recipe .details-container h1").innerText = recipe.name;
     document.querySelector(".open-recipe .details-container h2").innerText = recipe.servings + " servings";
@@ -56,6 +54,13 @@ export const displaySelectedRecipe = async function() {
     })
 };
 
+export const updateLastAccessed = async function(recipe) {
+    const recipes = await localforage.getItem("recipes");
+    const recipeIndex = recipes.findIndex(r => r.name == recipe.name);
+    recipes[recipeIndex].lastAccessed = new Date();
+    await localforage.setItem("recipes", recipes);
+}
+
 const selectOrUnselectIngredients = function(e) {
     const checkboxes = document.querySelectorAll(".ing-container li input");
     if (e.target.innerText == "Select all") {
@@ -87,7 +92,7 @@ export const getCurrentRecipe = async function() {
 }
 
 
-const openEditRecipe = function(e) {
+const openEditRecipe = function() {
     window.location.href = "new-recipe.html?recipe=" + getExistingRecipeName();
     initNewRecipeForm();
 }

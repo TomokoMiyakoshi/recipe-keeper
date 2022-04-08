@@ -1,6 +1,6 @@
 import { initRecipeSearch } from "./filterRecipes.js";
 import { initNewRecipeForm } from "./newRecipe.js";
-import { displaySelectedRecipe } from "./openRecipe.js";
+import { displaySelectedRecipe, getCurrentRecipe, updateLastAccessed} from "./openRecipe.js";
 import { initGroceryList } from "./groceryList.js";
 
 const toggleMenu = function() {
@@ -17,7 +17,9 @@ if (window.location.pathname === "/new-recipe.html") {
 }
 
 if (window.location.pathname === "/open-recipe.html") {
-    displaySelectedRecipe();
+    const recipe = await getCurrentRecipe();
+    displaySelectedRecipe(recipe);
+    updateLastAccessed(recipe);
 }
 
 if (window.location.pathname === "/grocery-list.html") {
