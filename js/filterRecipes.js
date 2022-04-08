@@ -4,9 +4,9 @@ import { addTagElement, removeTagElement, clearTagFormControl, populateWithTags,
 import { displayRecipes } from "./displayRecipes.js";
 
 var appliedTags = []
-var currentCategory = "all";
 var newResults = [];
 var searchTerm = "";
+var currentCategory = "all";
 
 export const initRecipeSearch = function() {
     document.querySelector(".search-btn").addEventListener("click", submitSearch);
@@ -69,13 +69,22 @@ const removeTagFilter = async function() {
     displayRecipes(newResults);
 };
 
-const changeCategory = async function() {
-    // set currentCategory to new category
+const changeCategory = async function(e) {
+    e.preventDefault();
+
     currentCategory = this.innerText.toLowerCase();
+    if (currentCategory == "favourites" || currentCategory == "recents") {
+        currentCategory = currentCategory.substring(0, currentCategory.length - 1);
+    }
+    const recipes = await filterByCategory();
+    displayRecipes(recipes);
+
     // change the button with the underline and bold styling
     styleCurrentCategory(this);
-    await updateResultsArray("category", currentCategory);
-    displayRecipes(newResults);
+
+    // clear applied tags and search term
+    appliedTags.splice(0, appliedTags.length);
+    searchTerm = "";
 }
 
 const styleCurrentCategory = function(newCategoryBtn) {
@@ -85,6 +94,13 @@ const styleCurrentCategory = function(newCategoryBtn) {
     newCategoryBtn.classList.add("current-category");
 };
 
+const filterByCategory = async function() {
+    const recipes = await localforage.getItem("recipes") || [];
+    if (currentCategory === "all") {
+        return recipes;
+    }
+    return recipes.filter(r => r[currentCategory] == true);
+}
 export const updateResultsArray = async function(changeType, newValue) {
     const recipes = await localforage.getItem("recipes") || [];
     switch (changeType) {
@@ -106,7 +122,11 @@ export const updateResultsArray = async function(changeType, newValue) {
 };
 
 const matchesAppliedFilters = function(recipe) {
-    return containsAllTags(recipe) && containsSearchTerm(recipe);
+    let result = containsAllTags(recipe) && containsSearchTerm(recipe);
+    if (currentCategory != "all") {
+        result = result && recipe[currentCategory] == true;
+    }
+    return result;
 }
 
 // returns true if all applied tags are in the recipe's list of tags

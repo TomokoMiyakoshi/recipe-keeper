@@ -18,7 +18,7 @@ export const displaySelectedRecipe = async function() {
     document.querySelector(".edit-btn").addEventListener("click", openEditRecipe);
     document.querySelector(".star-btn").addEventListener("click", changeRecipeStar);
 
-   const recipe = await getCurrentRecipe();
+    const recipe = await getCurrentRecipe();
     
     document.querySelector(".open-recipe .details-container h1").innerText = recipe.name;
     document.querySelector(".open-recipe .details-container h2").innerText = recipe.servings + " servings";
@@ -27,6 +27,9 @@ export const displaySelectedRecipe = async function() {
     tags.forEach(t => {
         addTagElement(t, ".tags-container", false);
     })
+
+    const starBtnSpan = document.querySelector(".star-btn span")
+    recipe.favourite ? starBtnSpan.innerText = "Unstar" : starBtnSpan.innerText = "Star";
     const ing = document.querySelector(".ing-container ul");
     const ins = document.querySelector(".ins-container ol");
 

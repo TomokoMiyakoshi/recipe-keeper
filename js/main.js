@@ -8,7 +8,7 @@ const toggleMenu = function() {
 }
 document.querySelector(".menu-btn").addEventListener("click", toggleMenu);
 
-if (document.title == "Chef's Helper") {
+if (window.location.pathname === "/index.html") {
    initRecipeSearch();
 }
 
