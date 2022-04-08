@@ -485,7 +485,7 @@ font-weight: bold;
     border-color: var(--medium-grey);
 }
 
-.grocery-list form button {
+.grocery-list form button:last-of-type {
     background-color: var(--dark-blue);
     border: none;
 }
@@ -497,6 +497,10 @@ font-weight: bold;
 .grocery-list > button {
     text-decoration: underline;
     color: var(--dark-grey); 
+}
+
+.grocery-list .no-results-message {
+    display: none;
 }
 
 .grocery-list ol {

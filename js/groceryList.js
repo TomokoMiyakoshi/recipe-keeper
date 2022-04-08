@@ -1,10 +1,53 @@
 export const initGroceryList = function() {
-    // document.querySelector(".search-btn").addEventListenerListener("click", searchItem);
+    document.querySelector(".search-btn").addEventListener("click", searchItem);
+    document.querySelector(".clear-searchbar-btn").addEventListener("click", clearSearch)
     document.querySelector(".add-item-btn").addEventListener("click", addItem);
     document.querySelector(".clear-list-btn").addEventListener("click", clearList);
     document.querySelector(".remove-checked-btn").addEventListener("click", removeCheckedItems);
     displayStoredItems();
 }
+
+const searchItem = function(e) {
+    e.preventDefault();
+    // hides all items that don't include the search term
+    const searchTerm = document.querySelector("#search").value;
+    const items = document.querySelectorAll(".grocery-list li");
+    let resultsCount = 0;
+    items.forEach(item => {
+        if (!item.firstElementChild.value.includes(searchTerm)) {
+            item.style.display = "none";
+        } else {
+            resultsCount ++;
+        }
+    });
+
+    // display message if no matches found
+    if (resultsCount === 0) {
+        document.querySelector(".no-results-message").style.display = "block";
+        toggleDisplayClearRemoveBtns(false);
+    }
+
+    // show clear search bar btn
+    document.querySelector(".clear-searchbar-btn").classList.remove("hide");
+    
+}
+
+const clearSearch = function(e) {
+    e.preventDefault();
+    this.previousElementSibling.value = "";
+    const items = document.querySelectorAll(".grocery-list li");
+    items.forEach(item => item.style.display = "block");
+
+    // if list is not empty, hide message and show buttons
+    if (items) {
+        document.querySelector(".no-results-message").style.display = "none";
+        toggleDisplayClearRemoveBtns(true);
+    }
+    // hide clear search bar btn
+    document.querySelector(".clear-searchbar-btn").classList.add("hide");
+    
+}
+
 
 const displayStoredItems = async function() {
     const list = await localforage.getItem("list") || [];
