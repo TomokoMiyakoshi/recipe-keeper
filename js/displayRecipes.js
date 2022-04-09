@@ -1,6 +1,6 @@
 import {openSelectedRecipe} from "./openRecipe.js";
 
-export const displayRecipes = async function(recipes) {
+export const displayRecipes = async function(recipes = undefined) {
     const container = document.querySelector(".recipes-container");
     
     if (recipes === undefined) {

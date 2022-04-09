@@ -46,6 +46,10 @@ const fillExistingDetails = async function(recipeTags) {
         recipeTags.push(t);
         addTagElement(t, ".tags-container")
     });
+
+    if (recipe.favourite) {
+        document.querySelector("#favourite").checked = true;
+    }
 }
 
 const submitRecipe = async function(recipeTags) {
@@ -58,8 +62,8 @@ const submitRecipe = async function(recipeTags) {
 const createRecipeObject = function(tags) {
     const form = document.querySelector(".new-recipe-form");
     const name = form.querySelector("#name").value.toLowerCase();
-    const favourite = false;
-    const lastAccessed = null;
+    const favourite = document.querySelector("#favourite").checked;
+    const lastAccessed = new Date();
     const servings = form.querySelector("#servings").value;
     const ingredients = form.querySelector("#ingredients").value.split("\n");
     const instructions = form.querySelector("#instructions").value.split("\n");
@@ -121,29 +125,29 @@ const handleImgFile = function(file) {
     })
     reader.readAsDataURL(file);
 
-    showImagePreview();
+    showImagePreview(img);
 }
 
 const showImagePreview = function(img) {
-    document.querySelector(".img-preview-wrapper").appendChild(img);
+    document.querySelector(".img-preview-container").appendChild(img);
 
     // hide label and disable input
     document.querySelector("#file-input").disabled = true;
     document.querySelector(".img-drop-area label").classList.toggle("hide");
-    document.querySelector(".img-preview-wrapper").classList.toggle("hide");
+    document.querySelector(".img-preview-container").classList.toggle("hide");
 }
 
 const removeImage = function(e) {
     e.preventDefault();
     
     //remove img element
-    const img = document.querySelector(".img-preview-wrapper img");
-    document.querySelector(".img-preview-wrapper").removeChild(img);
+    const img = document.querySelector(".img-preview-container img");
+    document.querySelector(".img-preview-container").removeChild(img);
     
     // show label and enable input
     document.querySelector("#file-input").disabled = false;
     document.querySelector(".img-drop-area label").classList.toggle("hide");
-    document.querySelector(".img-preview-wrapper").classList.toggle("hide");
+    document.querySelector(".img-preview-container").classList.toggle("hide");
 }
 
 const dragover = function(e) {

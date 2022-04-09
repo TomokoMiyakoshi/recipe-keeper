@@ -8,7 +8,7 @@ const toggleMenu = function() {
 }
 document.querySelector(".menu-btn").addEventListener("click", toggleMenu);
 
-if (window.location.pathname === "/index.html") {
+if (window.location.pathname === "/index.html" || window.location.pathname =="/") {
    initRecipeSearch();
 }
 

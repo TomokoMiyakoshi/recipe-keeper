@@ -64,18 +64,21 @@
                 </div>
             </div>
 
-            <div class="tags-container">
+            <div class="tags-container"></div>
 
+            <div class="favourite-checkbox-div">
+                <input type="checkbox" id="favourite">
+                <label for="favourite">Add to favourites</label>
             </div>
             
             <div>
                 <label for="ingredients">Ingredients</label>
-                <textarea name="ingredients" id="ingredients" cols="30" rows="10" placeholder="Enter 1 ingredient-quantity pair per line"></textarea>
+                <textarea name="ingredients" id="ingredients" cols="30" rows="8" multiline="true" placeholder="Enter 1 ingredient-quantity pair per line"></textarea>
             </div>
 
             <div>
                 <label for="instructions">Instructions</label>
-                <textarea name="instructions" id="instructions" cols="30" rows="10" placeholder="Enter 1 step per line"></textarea>
+                <textarea name="instructions" id="instructions" cols="30" rows="8" placeholder="Enter 1 step per line"></textarea>
             </div>
 
             <div class="img-drop-area">
@@ -90,8 +93,8 @@
                     <span> or drag it here</span>
                 </label>
                 
-                <div class="hide img-preview-wrapper">
-                    <button class="remove-img-btn">remove</button>
+                <div class="hide img-preview-container">
+                    <button class="remove-img-btn">Remove file</button>
                 </div>
             </div>
 
