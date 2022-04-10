@@ -31,6 +31,8 @@ export const displaySelectedRecipe = async function(recipe) {
     const ing = document.querySelector(".ing-container ul");
     const ins = document.querySelector(".ins-container ol");
 
+    document.querySelector(".print-btn").addEventListener("click", printWindow);
+
     recipe.ingredients.forEach(i => {
         
         const check = document.createElement("input");
@@ -116,4 +118,8 @@ const updateStarValue = async function(newValue) {
     const recipeIndex = recipes.findIndex(r => r.name == recipeName);
     recipes[recipeIndex].favourite = newValue;
     await localforage.setItem("recipes", recipes);
+}
+
+const printWindow = function() {
+    window.print();
 }

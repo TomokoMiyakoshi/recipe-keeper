@@ -685,6 +685,18 @@ footer {
 
 @media screen and (min-width: 1200px) {
 
+}
 
+@media print {
+    header {
+        display: none;
+    }
+
+    .open-recipe {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
 
 }
