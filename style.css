@@ -118,30 +118,13 @@ header {
     margin: 3px 0;
 }
 
-.top-nav, .selected-bar {
+.top-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: var(--header-footer-height);
     padding: 0 var(--horizontal-padding);
 }
-
-.selected-bar {
-    display: none;
-}
-
-.fa-check-circle {
-    margin-right: 1rem;
-}
-
-.fa-star {
-    margin-left: auto;
-}
-
-.fa-trash {
-    margin-left: 1.5rem;
-}
-
 
 .menu {
     width: 100vw;

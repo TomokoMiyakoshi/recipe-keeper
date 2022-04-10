@@ -17,6 +17,7 @@ export const displaySelectedRecipe = async function(recipe) {
     document.querySelector(".add-btn").addEventListener("click", updateListFromRecipe);
     document.querySelector(".edit-btn").addEventListener("click", openEditRecipe);
     document.querySelector(".star-btn").addEventListener("click", changeRecipeStar);
+    document.querySelector(".delete-btn").addEventListener("click", deleteRecipe);
     
     document.querySelector(".open-recipe .details-container h1").innerText = recipe.name;
     document.querySelector(".open-recipe .details-container h2").innerText = recipe.servings + " servings";
@@ -118,6 +119,18 @@ const updateStarValue = async function(newValue) {
     const recipeIndex = recipes.findIndex(r => r.name == recipeName);
     recipes[recipeIndex].favourite = newValue;
     await localforage.setItem("recipes", recipes);
+}
+
+const deleteRecipe = async function() {
+    if (confirm("Are you sure you want to delete this recipe?")) {
+        const recipeName = getExistingRecipeName();
+        const recipes = await localforage.getItem("recipes");
+        const recipeIndex = recipes.findIndex(r => r.name == recipeName);
+        recipes.splice(recipeIndex, 1);
+        await localforage.setItem("recipes", recipes);
+        // redirect to home page
+        window.location.href = "index.html";
+    }
 }
 
 const printWindow = function() {

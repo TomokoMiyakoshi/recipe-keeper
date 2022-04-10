@@ -33,15 +33,9 @@
                 <li class="grocery-list-link"><a href="grocery-list.html">Grocery List</a></li>
             </ul>
         </nav>
-        <div class="selected-bar">
-            <i class="fa fa-check-circle"></i>
-            <p>1 selected</p>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-trash"></i>
-        </div>
     </header>
     <main>
-        <form action="" class="new-recipe-form">
+        <form class="new-recipe-form">
             <div class="details">
                 <div>
                     <label for="name">Name</label>
@@ -73,17 +67,15 @@
                 </div>
             </div>
             
-
-            
             
             <div class="ingredients">
                 <label for="ingredients">Ingredients</label>
-                <textarea name="ingredients" id="ingredients" cols="30" rows="8" multiline="true" placeholder="Enter 1 ingredient-quantity pair per line"></textarea>
+                <textarea required name="ingredients" id="ingredients" cols="30" rows="8" multiline="true" placeholder="Enter 1 ingredient-quantity pair per line"></textarea>
             </div>
 
             <div class="instructions">
                 <label for="instructions">Instructions</label>
-                <textarea name="instructions" id="instructions" cols="30" rows="8" placeholder="Enter 1 step per line"></textarea>
+                <textarea required name="instructions" id="instructions" cols="30" rows="8" placeholder="Enter 1 step per line"></textarea>
             </div>
 
             <div class="img-drop-area">
@@ -103,7 +95,6 @@
                 </div>
             </div>
 
-            
 
             <button type="submit" class="submit-recipe-btn">Save</button>
         </form>

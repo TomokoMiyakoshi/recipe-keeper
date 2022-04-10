@@ -8,10 +8,15 @@ export const initNewRecipeForm = function() {
         e.preventDefault();
         addTag(recipeTags);
     });
-    document.querySelector(".submit-recipe-btn").addEventListener("click", function(e) {
+
+    document.querySelector(".new-recipe-form").addEventListener("submit", function(e) {
         e.preventDefault();
         submitRecipe(recipeTags, e)
     });
+    // document.querySelector(".submit-recipe-btn").addEventListener("click", function(e) {
+    //     e.preventDefault();
+    //     submitRecipe(recipeTags, e)
+    // });
     document.querySelector("#file-input").addEventListener("change", function() {
         handleImgFile(this.files[0]);
     });
@@ -53,10 +58,27 @@ const fillExistingDetails = async function(recipeTags) {
 }
 
 const submitRecipe = async function(recipeTags) {
-    const recipe = createRecipeObject(recipeTags);
-    await saveRecipe(recipe);
-    updateTagsArray(recipeTags);
-    redirectToHomePage();
+    
+    // show error message if image not uploaded
+    if (document.querySelector("#file-input").disabled == false) {
+        alert("Please upload an image");
+    } else {
+        const nameInput = document.querySelector("#name");
+        if (await nameUsed(nameInput.value.toLowerCase())) {
+            alert("A recipe with this name already exists");
+            nameInput.value = "";
+        } else {
+            const recipe = createRecipeObject(recipeTags);
+            await saveRecipe(recipe);
+            updateTagsArray(recipeTags);
+            redirectToHomePage();
+        }
+    }
+}
+
+const nameUsed = async function(name) {
+    const recipes = await localforage.getItem("recipes") || [];
+    return recipes.some(r => r.name === name);
 }
 
 const createRecipeObject = function(tags) {
