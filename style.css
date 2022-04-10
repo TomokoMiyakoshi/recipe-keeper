@@ -61,12 +61,13 @@ textarea {
     --horizontal-padding: 5vw;
     --main-vertical-padding: 5vh;
 
-    --recipe-gap: 10vw;
+    --recipe-col-gap: 5vw;
+    --recipe-row-gap: 10vw;
 }
 
-@media screen and (min-width: 485px) {
-    .recipes-container {
-        --recipe-gap: 7.5vh;
+@media screen and (min-width: 480px) {
+    :root {
+        --recipe-row-gap: 5vw;
     }
 }
 
@@ -86,7 +87,7 @@ textarea {
         --horizontal-padding: 8vw;
         --header-footer-height: 65px;
 
-        --recipe-gap: 5vw;
+        --recipe-row-gap: 3vw;
     }   
 }
 
@@ -295,8 +296,9 @@ footer {
 
 .recipes-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--recipe-gap);
+    grid-template-columns: repeat(auto-fit, minmax(200px, max-content));
+    row-gap: var(--recipe-row-gap);
+    column-gap: var(--recipe-col-gap);
     margin-top: 2rem;
 }
 
