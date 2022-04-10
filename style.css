@@ -326,17 +326,25 @@ footer {
 /* ------------------ new recipe page ------------------ */
 .new-recipe-form {
     display: grid;
-    gap: 2rem;
+    gap: 2.5rem;
+    overflow: none;
 }
 
-.new-recipe-form > div:not(.tags-container):not(.favourite-checkbox-div) {
+.new-recipe-form > div {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-.tags-container {
-    min-height: 1rem;
+.new-recipe-form .details {
+    gap: 1rem;
+    width: 220px;
+}
+
+.details > div:nth-child(-n+3) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
 }
 
 .tags-container div {
@@ -344,10 +352,17 @@ footer {
 }
 
 
-/* TODO: set widths on specific inputs */
+#name {
+    width: 100%;
+}
 
-.new-recipe-form input:not(input[type="checkbox"]) {
-    width: 200px;
+#servings {
+    width: 70px;
+}
+
+.new-recipe-form input:not(input[type="checkbox"]), .new-recipe-form textarea, .add-tag-btn {
+    border: 1px solid rgb(195, 195, 195);
+    border-radius: 2px;
 }
 
 .new-recipe-form textarea {
@@ -355,17 +370,23 @@ footer {
     line-height: 1.5;
 }
 
-.add-tag-btn {
-    margin-left: 0.5rem;
+.tag-input-container {
+    width: 100%;
+    display: flex;
+}
+.tag-input-container input {
+    flex: 1;
 }
 
-.tag-input-container {
-    display: flex;
+.add-tag-btn {
+    margin-left: 0.1rem;
+    flex: 0;
 }
 
 
 .img-drop-area {
-    border: 1px dashed black;
+    border: 1px dashed var(--medium-grey);
+    border-radius: 2px;
     height: 14rem;
     /* to vertically centre label */
     flex-direction: column;
@@ -437,15 +458,12 @@ footer {
 .submit-recipe-btn {
     margin: 0 auto;
     width: fit-content;
-    border: 1px solid black;
+    border: 1px solid var(--medium-grey);
+    border-radius: 2px;
+    padding: 0.2rem 0.8rem;
 }
 
 /* ------------ open recipe ------------ */
-/* .open-recipe .img-container {
-    margin: 0 auto;
-    width: 90%;
-    max-width: 400px;
-} */
 
 .open-recipe img {
     aspect-ratio: 16/9;
@@ -649,6 +667,41 @@ footer {
 
 @media screen and (min-width: 800px) {
 
+    /* ------------------ new-recipe page ------------------ */
+    .new-recipe-form {
+        grid-template-columns: max-content 1fr minmax(300px, 500px);
+        grid-template-areas: 
+            "details . ing"
+            "image  . ins"
+            ". . submit";
+        max-width: 850px;
+    }
+
+    .new-recipe-form .details label {
+        width: fit-content;
+    }
+
+    .new-recipe-form .details {
+        grid-area: details;
+    }
+
+    .new-recipe-form .ingredients {
+        grid-area: ing;
+        max-width: 500px;
+    }
+
+    .new-recipe-form .instructions {
+        grid-area: ins;
+        max-width: 500px;
+    }
+
+    .img-drop-area {
+        grid-area: image;
+        max-width: 300px;
+    }
+    .submit-recipe-btn {
+        grid-area: submit;
+    }
     /* ------------------ open-recipe page ------------------ */
 
     .open-recipe {
@@ -657,7 +710,6 @@ footer {
         gap: 3rem 4.5rem;
         justify-content: center;
     }
-    
 
     .open-recipe img {
         width: 100%;
