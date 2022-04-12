@@ -276,6 +276,9 @@ footer {
     margin-left: 0.75rem;
 }
 
+.no-results-message {
+    margin-top: 1rem;
+}
 
 .recipes-container {
     display: grid;
