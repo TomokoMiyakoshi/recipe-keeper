@@ -1,7 +1,6 @@
 export const populateWithTags =　async function(formControlSelector) {
-    const tags = await localforage.getItem("tags") || [];
-    // to display tag options in alphabetical order
-    tags.sort();
+    const tags = await getTags();
+    
     const formControl = document.querySelector(formControlSelector);
     tags.forEach(t => {
         const option = document.createElement("option");
@@ -10,6 +9,14 @@ export const populateWithTags =　async function(formControlSelector) {
         formControl.appendChild(option);
     });
 };
+
+const getTags = async function() {
+    const recipes = await localforage.getItem("recipes") || [];
+    let tags = [];
+    recipes.forEach(r => tags = tags.concat(r.tags));
+    // return tags in alphabetical order
+    return Array.from(new Set(tags)).sort();
+}
 
 export const addTagElement = function(value, containerSelector, removable=true) {
     const tag = document.createElement("div");
@@ -29,10 +36,9 @@ export const addTagElement = function(value, containerSelector, removable=true) 
     return tag;
 };
 
-export const removeTagElement = function(deleteBtn, containerSelector) {
+export const removeTagElement = function(deleteBtn) {
     const tagElem = deleteBtn.parentElement;
     tagElem.remove();
-    // document.querySelector(containerSelector).removeChild(tagElem);
 };
 
 export const clearTagFormControl = function(controlSelector) {

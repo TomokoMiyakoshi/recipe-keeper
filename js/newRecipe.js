@@ -1,8 +1,13 @@
 import { populateWithTags, addTagElement, removeTagElement, clearTagFormControl } from "./tags.js";
 import { getCurrentRecipe, getExistingRecipeName } from "./openRecipe.js";
 
-export const initNewRecipeForm = function() {
+export const initNewRecipeForm = async function() {
     const recipeTags = [];
+    const existingRecipe = await getCurrentRecipe();
+    let existingRecipeName = "";
+    if (existingRecipe) {
+        existingRecipeName = existingRecipe.name;
+    }
 
     document.querySelector(".add-tag-btn").addEventListener("click", function(e){
         e.preventDefault();
@@ -11,12 +16,9 @@ export const initNewRecipeForm = function() {
 
     document.querySelector(".new-recipe-form").addEventListener("submit", function(e) {
         e.preventDefault();
-        submitRecipe(recipeTags, e)
+        submitRecipe(existingRecipe, existingRecipeName, recipeTags)
     });
-    // document.querySelector(".submit-recipe-btn").addEventListener("click", function(e) {
-    //     e.preventDefault();
-    //     submitRecipe(recipeTags, e)
-    // });
+    
     document.querySelector("#file-input").addEventListener("change", function() {
         handleImgFile(this.files[0]);
     });
@@ -31,12 +33,11 @@ export const initNewRecipeForm = function() {
 
     // if there is no query string, it is a new recipe, otherwise user is editing existing recipe
     if (window.location.search != "") {
-        fillExistingDetails(recipeTags);
+        fillExistingDetails(existingRecipe, recipeTags);
     }
 }
 
-const fillExistingDetails = async function(recipeTags) {
-    const recipe = await getCurrentRecipe();
+const fillExistingDetails = async function(recipe, recipeTags) {
     document.querySelector("#name").value = recipe.name;
     document.querySelector("#servings").value = recipe.servings;
     document.querySelector("#ingredients").value = recipe.ingredients.join("\n");
@@ -49,7 +50,11 @@ const fillExistingDetails = async function(recipeTags) {
     recipe.tags.forEach(t => {
         // can't assign recipe.tags to recipeTags as arrays are passed by reference
         recipeTags.push(t);
-        addTagElement(t, ".tags-container")
+        addTagElement(t, ".tags-container").addEventListener("click", function(e) {
+            e.preventDefault();
+            removeTagElement(this, ".tags-container");
+            removeTagFromArray(t, recipeTags);
+        });
     });
 
     if (recipe.favourite) {
@@ -57,28 +62,35 @@ const fillExistingDetails = async function(recipeTags) {
     }
 }
 
-const submitRecipe = async function(recipeTags) {
+const submitRecipe = async function(existingRecipe, existingRecipeName, recipeTags) {
     
     // show error message if image not uploaded
     if (document.querySelector("#file-input").disabled == false) {
         alert("Please upload an image");
     } else {
+        // show error message if recipe name is not unique
         const nameInput = document.querySelector("#name");
-        if (await nameUsed(nameInput.value.toLowerCase())) {
+        const newName = nameInput.value.toLowerCase();
+        if (await nameUsed(existingRecipeName, newName)) {
             alert("A recipe with this name already exists");
             nameInput.value = "";
         } else {
             const recipe = createRecipeObject(recipeTags);
-            await saveRecipe(recipe);
-            updateTagsArray(recipeTags);
+            await saveRecipe(existingRecipeName, recipe);
             redirectToHomePage();
         }
     }
+    
 }
 
-const nameUsed = async function(name) {
+const nameUsed = async function(existingRecipeName, newName) {
     const recipes = await localforage.getItem("recipes") || [];
-    return recipes.some(r => r.name === name);
+    // if editing recipe and name is unchanged, return false
+    if (existingRecipeName && newName === existingRecipeName) {
+        return false;
+    } else {
+        return recipes.some(r => r.name === newName);
+    }
 }
 
 const createRecipeObject = function(tags) {
@@ -93,25 +105,17 @@ const createRecipeObject = function(tags) {
     return {name, favourite, lastAccessed, servings, ingredients, instructions, tags, image};
 }
 
-const saveRecipe = async function(recipe) {
+const saveRecipe = async function(existingRecipeName, recipe) {
     const recipes = await localforage.getItem("recipes") || [];
     // replace current recipe with updated recipe if editing
-    const existingRecipe = await getExistingRecipeName();
-    if (existingRecipe) {
-        const existingIndex = recipes.findIndex(r => r.name === existingRecipe);
+    if (existingRecipeName) {
+        const existingIndex = recipes.findIndex(r => r.name === existingRecipeName);
         recipes[existingIndex] = recipe;
     } else {
         recipes.push(recipe);
     }
     await localforage.setItem("recipes", recipes);
 }
-
-const updateTagsArray = async function(recipeTags) {
-    const existingTags = await localforage.getItem("tags") || [];
-    const updatedTagsArr = existingTags.concat(recipeTags.filter(t => !existingTags.includes(t)));
-    localforage.setItem("tags", updatedTagsArr);
-}
-
 
 const redirectToHomePage = function() {
     window.location.href = "index.html";
@@ -125,10 +129,10 @@ const addTag = function(recipeTags) {
     if (value !== "" && !recipeTags.includes(value)) {
         recipeTags.push(value);
         const deleteBtn = addTagElement(value, ".tags-container");
-        deleteBtn.addEventListener("click", function() {
+        deleteBtn.addEventListener("click", function(e) {
+            e.preventDefault();
             removeTagElement(this, ".tags-container");
             removeTagFromArray(value, recipeTags);
-
         });
     }
     clearTagFormControl("#tag");

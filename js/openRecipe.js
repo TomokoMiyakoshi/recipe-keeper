@@ -94,7 +94,6 @@ export const getCurrentRecipe = async function() {
     return recipes.find(r => r.name === recipeName);
 }
 
-
 const openEditRecipe = function() {
     window.location.href = "new-recipe.html?recipe=" + getExistingRecipeName();
     initNewRecipeForm();
@@ -132,6 +131,16 @@ const deleteRecipe = async function() {
         window.location.href = "index.html";
     }
 }
+
+// const deleteUniqueTags = function(recipe, recipes) {
+//     recipe.tags.forEach(t => {
+
+//     })
+//     const tags = recipes.map(r => r.tags);
+
+// }
+
+// const getTagSet()
 
 const printWindow = function() {
     window.print();

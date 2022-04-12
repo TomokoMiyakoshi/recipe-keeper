@@ -3,6 +3,7 @@ import { initNewRecipeForm } from "./newRecipe.js";
 import { displaySelectedRecipe, getCurrentRecipe, updateLastAccessed} from "./openRecipe.js";
 import { initGroceryList } from "./groceryList.js";
 
+
 const toggleMenu = function() {
     document.querySelector(".menu").classList.toggle("hide");
 }
