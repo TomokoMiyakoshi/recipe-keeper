@@ -1,6 +1,6 @@
 import { addTagElement } from "./tags.js"
 import { updateListFromRecipe } from "./groceryList.js"
-import { initNewRecipeForm } from "./newRecipe.js";
+import { initNewRecipeForm } from "./newOrEditRecipe.js";
 
 export const openSelectedRecipe = async function(e) {
     e.preventDefault();

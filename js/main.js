@@ -1,5 +1,5 @@
 import { initRecipeSearch } from "./filterRecipes.js";
-import { initNewRecipeForm } from "./newRecipe.js";
+import { initNewRecipeForm } from "./newOrEditRecipe.js";
 import { displaySelectedRecipe, getCurrentRecipe, updateLastAccessed} from "./openRecipe.js";
 import { initGroceryList } from "./groceryList.js";
 

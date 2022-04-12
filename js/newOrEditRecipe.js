@@ -1,5 +1,5 @@
 import { populateWithTags, addTagElement, removeTagElement, clearTagFormControl } from "./tags.js";
-import { getCurrentRecipe, getExistingRecipeName } from "./openRecipe.js";
+import { getCurrentRecipe } from "./openRecipe.js";
 
 export const initNewRecipeForm = async function() {
     const recipeTags = [];

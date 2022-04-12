@@ -148,7 +148,7 @@ header {
     display: inline-block; 
 }
 
-.home-body .home-link a {
+.current-link {
     /* underline current page link */
     border-bottom: 2.5px solid var(--dark-blue);
 }

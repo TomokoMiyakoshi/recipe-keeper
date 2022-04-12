@@ -1,7 +1,17 @@
 export const initGroceryList = function() {
     document.querySelector(".search-btn").addEventListener("click", searchItem);
+    document.querySelector("#search").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            searchItem(e);
+        }
+    });
     document.querySelector(".clear-searchbar-btn").addEventListener("click", clearSearch)
     document.querySelector(".add-item-btn").addEventListener("click", addItem);
+    document.querySelector("#add-item").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            addItem(e);
+        }
+    });
     document.querySelector(".clear-list-btn").addEventListener("click", clearList);
     document.querySelector(".remove-checked-btn").addEventListener("click", removeCheckedItems);
     displayStoredItems();
@@ -33,13 +43,14 @@ const searchItem = function(e) {
 }
 
 const clearSearch = function(e) {
-    e.preventDefault();
-    this.previousElementSibling.value = "";
+    // function may not be triggered by clicking clear search button
+    if (e) e.preventDefault();
+    document.querySelector("#search").value = "";
     const items = document.querySelectorAll(".grocery-list li");
     items.forEach(item => item.style.display = "block");
 
     // if list is not empty, hide message and show buttons
-    if (items) {
+    if (items.length > 0) {
         document.querySelector(".no-results-message").style.display = "none";
         toggleDisplayClearRemoveBtns(true);
     }
@@ -72,12 +83,18 @@ const addItem = async function(e) {
     try {
         await saveItem(value);
         addItemElement(value);
-
-        toggleDisplayClearRemoveBtns(true);
+        if (document.querySelector("#search").value != "") {
+            clearSearch();
+        } else {
+            // clear search already contains call to toggleDisplayClearRemoveBtns(true)
+            toggleDisplayClearRemoveBtns(true);
+        }
+        
     } catch (e) {
         alert(e);
     }
 }
+
 
 const saveItem = async function(value) {
     const list = await localforage.getItem("list") || [];
