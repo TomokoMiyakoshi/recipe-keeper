@@ -26,6 +26,13 @@ export const displayRecipes = async function(recipes = undefined) {
     });
 };
 
+export const displayIntroCard = function() {
+    document.querySelector(".intro-card").style.display = "block";
+    document.querySelector("main").style.display = "none";
+    document.querySelector(".intro-card button").addEventListener("click", function() {
+        window.location.href = "new-recipe.html";
+    })
+}
 const createRecipeCard = function(recipe) {
     const link = document.createElement("a");
     link.classList.add("recipe-card");

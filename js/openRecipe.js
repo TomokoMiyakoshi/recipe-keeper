@@ -132,16 +132,6 @@ const deleteRecipe = async function() {
     }
 }
 
-// const deleteUniqueTags = function(recipe, recipes) {
-//     recipe.tags.forEach(t => {
-
-//     })
-//     const tags = recipes.map(r => r.tags);
-
-// }
-
-// const getTagSet()
-
 const printWindow = function() {
     window.print();
 }

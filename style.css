@@ -56,6 +56,7 @@ textarea {
     --regular-ft: 16px;
     --smaller-ft: 14px;
     --larger-ft: 18px;
+    --large-ft: 21px;
 
     --header-footer-height: 55px;
     --horizontal-padding: 5vw;
@@ -176,6 +177,36 @@ footer {
 
 
 /* ------------------ home page and tag styling for home and new-recipe page ------------------ */
+
+.intro-card {
+    display: none;
+    margin: var(--header-footer-height) auto;
+    min-height: calc(100vh - 2*var(--header-footer-height));
+    padding: var(--main-vertical-padding) var(--horizontal-padding);
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.intro-card h1 {
+    font-weight: bold;
+    font-size: var(--large-ft); 
+    line-height: 1.2;
+    margin-bottom: 0.8em;
+}
+
+.intro-card img {
+    max-width: min(100%, 200px);
+    margin: 1em auto;
+}
+
+.intro-card button {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: 0.5em 1.6em;
+    border-radius: 5px;
+    line-height: 1.2;
+    font-weight: bold;
+}
 
 .categories-btns-container {
     margin-bottom: 1.5rem;
