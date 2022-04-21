@@ -49,9 +49,11 @@ const clearSearch = function(e) {
     const items = document.querySelectorAll(".grocery-list li");
     items.forEach(item => item.style.display = "block");
 
-    // if list is not empty, hide message and show buttons
+    // search might have resulted in no results
+    document.querySelector(".no-results-message").style.display = "none";
+
+    // if list is not empty, show buttons
     if (items.length > 0) {
-        document.querySelector(".no-results-message").style.display = "none";
         toggleDisplayClearRemoveBtns(true);
     }
     // hide clear search bar btn
@@ -79,20 +81,22 @@ const addItem = async function(e) {
     e.preventDefault();
     const input = document.querySelector("#add-item");
     const value = input.value.trim();
-    input.value = "";
-    try {
-        await saveItem(value);
-        addItemElement(value);
-        if (document.querySelector("#search").value != "") {
-            clearSearch();
-        } else {
-            // clear search already contains call to toggleDisplayClearRemoveBtns(true)
-            toggleDisplayClearRemoveBtns(true);
+    if (value != "") {
+        try {
+            await saveItem(value);
+            if (document.querySelector("#search").value != "") {
+                clearSearch();
+            } else {
+                // clear search already contains call to toggleDisplayClearRemoveBtns(true)
+                toggleDisplayClearRemoveBtns(true);
+            }
+            addItemElement(value);
+            
+        } catch (e) {
+            alert(e);
         }
-        
-    } catch (e) {
-        alert(e);
     }
+    input.value = "";
 }
 
 
