@@ -17,20 +17,22 @@
         <nav>
             <ul class="top-nav">
                 <li>
-                    <a href="index.html">logo</a>
-                </li>
-                <li>
-                    <button class="menu-btn" aria-label="open-menu">
+                    <button class="open-menu-btn" aria-label="open-menu">
                         <span></span>
                         <span></span>
                         <span></span>
                     </button>
                 </li>
+                <li>
+                    <button class="close-menu-btn hide" aria-label="close-menu">
+                        &times;
+                    </button>
+                </li>
             </ul>
             <ul class="menu hide">
-                <li"><a href="new-recipe.html">Add Recipe</a></li>
+                <li><a class="current-link" href="new-recipe.html">Add Recipe</a></li>
                 <li><a href="index.html">View Recipes</a></li>
-                <li><a class="current-link" href="grocery-list.html">Grocery List</a></li>
+                <li><a href="grocery-list.html">Grocery List</a></li>
             </ul>
         </nav>
     </header>

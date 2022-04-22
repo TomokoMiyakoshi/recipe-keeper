@@ -7,9 +7,12 @@ import { displayIntroCard } from "./displayRecipes.js";
 
 const toggleMenu = function() {
     document.querySelector(".menu").classList.toggle("hide");
+    document.querySelector(".open-menu-btn").classList.toggle("hide");
+    document.querySelector(".close-menu-btn").classList.toggle("hide");
 }
 
-document.querySelector(".menu-btn").addEventListener("click", toggleMenu);
+document.querySelector(".open-menu-btn").addEventListener("click", toggleMenu);
+document.querySelector(".close-menu-btn").addEventListener("click", toggleMenu);
 
 const recipesExist = async function() {
     const recipes = await localforage.getItem("recipes") || [];

@@ -55,6 +55,7 @@ textarea {
 
     --regular-ft: 16px;
     --smaller-ft: 14px;
+    --small-ft: 10px;
     --larger-ft: 18px;
     --large-ft: 21px;
 
@@ -111,13 +112,21 @@ header {
     z-index: 5;
 }
 
-.menu-btn span {
+.open-menu-btn span {
     /* make span behave like a div */
     display: block;
     background-color: var(--dark-grey);
     width: 20px;
     height: 3px;
     margin: 3px 0;
+}
+
+.close-menu-btn.hide, .open-menu-btn.hide {
+    display: none;
+}
+
+.close-menu-btn {
+    font-size: 2rem;
 }
 
 .top-nav {
@@ -157,8 +166,12 @@ a.current-link {
 /* ------------------ main ------------------ */
 
 main {
-    margin: var(--header-footer-height) 0;
+    margin: var(--header-footer-height) 0 0 0 ;
     padding: var(--main-vertical-padding) var(--horizontal-padding);
+    
+}
+
+.home-main {
     /* to keep footer at bottom of page */
     min-height: calc(100vh - 2*var(--header-footer-height));
 }
@@ -174,6 +187,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     background-color: var(--light-green);
+    font-size: var(--small-ft);
 }
 
 
@@ -181,7 +195,7 @@ footer {
 
 .intro-card {
     display: none;
-    margin: var(--header-footer-height) auto;
+    margin: var(--header-footer-height) 0 0 0;
     min-height: calc(100vh - 2*var(--header-footer-height));
     padding: var(--main-vertical-padding) var(--horizontal-padding);
     text-align: center;
@@ -656,7 +670,7 @@ footer {
 @media screen and (min-width: 600px) {
 
     /* ------------------ header ------------------ */
-    .menu-btn {
+    .open-menu-btn, .close-menu-btn {
         display: none;
     }
 
