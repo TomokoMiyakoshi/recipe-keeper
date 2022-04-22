@@ -59,7 +59,8 @@ textarea {
     --larger-ft: 18px;
     --large-ft: 21px;
 
-    --header-footer-height: 55px;
+    --header-height: 55px;
+    --footer-height: 35px;
     --horizontal-padding: 5vw;
     --main-vertical-padding: 5vh;
 
@@ -88,7 +89,7 @@ textarea {
         --smaller-ft: 16px;
     
         --horizontal-padding: 8vw;
-        --header-footer-height: 65px;
+        --header-height: 65px;
 
         --recipe-row-gap: 3vw;
     }   
@@ -107,7 +108,7 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    height: var(--header-footer-height);
+    height: var(--header-height);
     /* ensure header (and nav) is displayed on top of any other content */
     z-index: 5;
 }
@@ -133,7 +134,7 @@ header {
     display: flex;
     justify-content: end;
     align-items: center;
-    height: var(--header-footer-height);
+    height: var(--header-height);
     padding: 0 var(--horizontal-padding);
 }
 
@@ -166,14 +167,14 @@ a.current-link {
 /* ------------------ main ------------------ */
 
 main {
-    margin: var(--header-footer-height) 0 0 0 ;
+    margin: var(--header-height) 0 0 0 ;
     padding: var(--main-vertical-padding) var(--horizontal-padding);
     
 }
 
 .home-main {
     /* to keep footer at bottom of page */
-    min-height: calc(100vh - 2*var(--header-footer-height));
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
 }
 
 /* ------------------ footer ------------------ */
@@ -182,7 +183,7 @@ footer {
     padding: 0 var(--horizontal-padding);
     /* to keep footer at bottom of page*/
     margin-top: auto;
-    height: var(--header-footer-height);
+    height: var(--footer-height);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -195,8 +196,8 @@ footer {
 
 .intro-card {
     display: none;
-    margin: var(--header-footer-height) 0 0 0;
-    min-height: calc(100vh - 2*var(--header-footer-height));
+    margin: var(--header-height) 0 0 0;
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
     padding: var(--main-vertical-padding) var(--horizontal-padding);
     text-align: center;
     font-family: 'Roboto', sans-serif;
@@ -498,6 +499,10 @@ footer {
 }
 
 /* ------------ open recipe ------------ */
+.open-recipe {
+    display: grid;
+    grid-gap: 2rem;
+}
 
 .open-recipe img {
     aspect-ratio: 16/9;
@@ -508,11 +513,6 @@ footer {
 
 .open-recipe h1 {
     font-weight: bold;
-}
-
-.open-recipe {
-    display: grid;
-    grid-gap: 2rem;
 }
 
 .open-recipe .details-container {
@@ -589,11 +589,17 @@ footer {
     margin-right: 0.5rem;
 }
 
+.open-recipe li {
+    /* to prevent horizontal overflow from ingredients/instructions */
+    word-break: break-all;
+}
+
+
 
 /* ------------------ grocery list page ------------------ */
 .grocery-list {
     width: fit-content;
-    margin: calc(var(--header-footer-height) + 1rem) auto;
+    margin: calc(var(--header-height) + 1rem) auto;
 }
 .grocery-list form {
     border-color: var(--medium-grey);
@@ -709,6 +715,7 @@ footer {
             "image  . ins"
             ". . submit";
         max-width: 850px;
+        margin: 0 auto;
     }
 
     .new-recipe-form .details label {
